@@ -31,7 +31,7 @@
 
 1. w3c建议把 `<script>` 标签放在 `<head></head>` 里面，容易管理,在页面加载时加载，调用时才执行。
 
-2. 把`<script>` 放在 `<body></body>` 里面，会在页面加载时被执行。
+2. 把`<script>` 放在 `<body></body>` 里面，会在页面加载时被执行。
 
 3. 把`<script>` 放在 `</html>` 后面，在页面载入完成之后被执行。
 
@@ -60,8 +60,8 @@
 - 混杂模式（quirks mode） 又称为 怪异模式。
 像下面这样的声明：
 ```html
-<!--HTML 4.01 严格型-->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/xhtmll/DTD/xhtmll-strict.dtd">
+<!--HTML 4.01 严格型-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/xhtmll/DTD/xhtmll-strict.dtd">
 ```
 
 混杂模式是

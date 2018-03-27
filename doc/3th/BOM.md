@@ -48,3 +48,75 @@ window 对象比较特殊，在浏览器 BOM 当中有两层含义：
 2. `frame` 这个是设置具体的框架窗口中的参数属性。
 3. `iframe` 这是可以在一个页面中嵌入一个框架窗口。 
 
+## 窗口位置
+
+window 的属性下有一些属性能访问到窗口位置如下：
+1. `window.screenLeft` 用来显示最外层 `window` 窗口对象与显示器屏幕左边的距离。
+```javascript
+    var leftPos = (typeof window.screenLeft == "number") ?
+                    window.screenLeft : window.screenX // 如果 screenLeft 不行就使用 screenX 在 Opera 下兼容。
+```
+
+2. `window.screenTop` 用来显示最外层 `window` 窗口对象与显示器屏幕顶端到屏幕顶端的距离。
+
+```javascript
+    var topPos = (typeof window.screenTop == "number") ?
+                    window.screenTop : window.screenY // 兼容 Opera 的 screenY
+```
+
+3. 给定新坐标将窗口移动可以使用 `window.moveTo()` 方法。
+4. 基于原坐标移动多少尺寸使用 `window.moveBy()` 方法。
+
+## 窗口大小
+
+1. innerWidth 表示浏览器内框视图宽度。
+```javascript
+    var pageWidth = window.innerWidth
+    if(typeof pageWidth != "number") {
+        if(document.compatMode == "CSS1Compat") {
+            pageWidth = document.documentElement.clientWidth // 标准模式下
+        } else {
+            pageWidth = document.body.clientWidth // 混杂模式下有作用
+        }
+    }
+```
+2. innerHeight 表示浏览器内框视图高度。
+```javascript
+    var pageHeight = window.innerHeight
+    if(typeof pageHeight != "number") {
+        if(document.compatMode == "CSS1Compat") {
+            pageWidth = document.documentElement.clientHeight // 标准模式下
+        } else {
+            pageWidth = document.body.clientHeight // 混杂模式下有作用
+        }
+    }
+```
+3. outerWidth 表示包括浏览器所占宽度。
+4. outerHeight 表示包括浏览器所占高度。
+
+5. 基于新数据调整窗口大小 `window.resizeTo()` 方法。
+6. 基于原来数据调整窗口大小 `window.resizeBy()` 方法。
+
+## 导航和打开窗口
+
+1. `window.open()` 用来打开一个新的浏览器窗口。
+
+```javascript
+    var window = window.open(url, windowName, [windowFeatures])
+```
+
+2. `window.close()` 用来关闭一个浏览器的实例。
+
+```javascript
+    var wroxWin = window.open("http://www.163.com","newWindow", "height=400,width=400,top=10,left=10,resizable=yes")
+
+    wroxWin.resizeTo(500,500) // 调整大小
+    wroxWin.moveTo(100,100) // 调整位置
+    wroxWin.close() // 关闭窗口
+```
+
+新建的 `window` 实例有一个 `opener` 属性是指向原来创建窗体的。
+
+```javascript
+    console.log(wroxWin.opener == window) // true
+```

@@ -197,7 +197,7 @@ JavaScript 是单线程语言，它得通过设置 EventLoop 事件来触发定�
 | **document**      | `Document` 是 `window` 非常重要的对象，能让开发人员操作到 DOM 对象                             |
 | **history**       | `window` 的重要子属性，history 对象保存着用户上网的历史记录对象和方法                            |
 | **navigator**     | `window` 的重要子属性，提供当前有关浏览器信息和方法                                            |
-| **location**      | location既是window对象的属性，也是 document对象的属性,包含导航 URL 的信息和操作方法            |
+| **location**      | `location`既是window对象的属性，也是 document对象的属性,包含导航 URL 的信息和操作方法            |
 
 上面加粗的对象都是 `window` 的重要子属性将会重要详述。
 
@@ -230,3 +230,68 @@ JavaScript 是单线程语言，它得通过设置 EventLoop 事件来触发定�
 | setTimeout()    | 在指定的毫秒数后调用函数或计算表达式。             |
 | clearInterval() | 取消由 setInterval() 设置的 timeout。              |
 | clearTimeout()  | 取消由 setTimeout() 方法设置的 timeout。           |
+
+
+## `location` 对象
+
+`location` 是 BOM 最有用的对象之一，`location` 可以很方便地访问 URL，将 URL 解析为独立的片段。
+
+`location` 的常用属性
+| 属性名称 | 描述 |
+|----------|-----------------------------------------------|
+| hash     | 设置或返回从井号 (#) 开始的 URL（锚）。  `#contents`     |
+| host     | 设置或返回主机名和当前 URL 的端口号。    `www.wrox.com:80`     |
+| hostname | 设置或返回当前 URL 的主机名。           `www.wrox.com`      |
+| href     | 设置或返回完整的 URL。`location.toString()`  也返回这个值 `http:/www.wrox.com`      |
+| pathname | 设置或返回当前 URL 的路径部分的参数。  `/WileyCDA/`             |
+| port     | 设置或返回当前 URL 的端口号。        `8080`         |
+| protocol | 设置或返回当前 URL 的协议。         `http:`        |
+| search   | 设置或返回从问号 (?) 开始的 URL（查询部分）。 `?q=javascript` |
+
+一般查询字符串 `search` 都有多个参数，如果获取需要实现方法或者通过正则来获取。
+
+
+`location` 常用方法
+| 属性名称 | 描述 |
+|-----------|--------------------------|
+| assign()  | 加载新的文档。会重新跳转页面到参数的值，有历史记录           |
+| reload()  | 重新加载当前文档。  等于 F5 刷新     |
+| replace() | 用新的文档替换当前文档。 替换当前浏览器网址,不会生成返回记录  |
+
+上面三种方法都是能加载网址的，重新直接修改 `location` 属性也是行的。
+```javascript
+    window.location = "http://fe2x.cc"
+    location.href = "http://fe2x.cc"
+    location.pathname = "mydir"  // 修改成 http://fe2x.cc/mydir/
+```
+
+```javascript
+    location.reload() // 重新加载 (有可能在缓存中加载)
+    location.reload(true) //重新加载 (从服务器重新加载)
+```
+
+## `Navigator` 对象
+
+`navigator` 对象通常用来查询浏览器相关信息。`navigator` 的属性就不一一例举了，属性能访问浏览器名称，版本，系统平台，浏览器设置等等。
+
+```javascript
+    navigator.plugins // 能通过 plugins 访问浏览器当前使用的插件
+```
+
+## `screen` 对象
+
+`screen` 对象用来显示窗口显示器的信息参数，宽度高度，多少像素，刷新率等。
+
+## `history` 对象
+
+`history` 对象用来保存，用户上网的历史记录，是当前页面跳转的记录。可以通过
+`history.go("www.163.com")` 返回之前访问过的网页，或者
+
+```javascript
+    history.back() // 后退一页
+    history.go(-1) // 后退一页
+    //or
+    history.forward() // 前进一页
+    history.go(1) // 前进一页
+    history.go(2) // 前进两页
+```

@@ -116,5 +116,59 @@ DOM1 级里面定义了一个 Node 接口, 所有节点类型都继承自 Node �
     console.log(shallowList.childNodes.length) // 0
 ```
 
+### Document 类型
+
+Document 代表整个文档。document 对象是 window对象的一个属性。
+
+```javascript
+    console.log(window.document.nodeType) // 9
+    console.log(window.document.nodeName) // #document
+    var html = document.querySelector("html") // 获取 html
+    console.log(html.parentNode.nodeType) // 9 html的父类就是 document 节点
+    console.log(document.parentNode) // document 的父类为 null
+    console.log(document.childNodes) // NodeList(2) [<!DOCTYPE html>, html.module-default] 
+```
+
+对于 document 的直接子元素属性可以直接属性访问
+```javascript
+    console.log(document.doctype) // <!DOCTYPE html>
+    console.log(document.doctype.nodeType) // 这能获得 10  DOCUMENT_TYPE_NODE 值
+    console.log(document.body) // <body id="body" style>...</body>
+    console.log(document.title) // 标题
+```
+
+document 里面还自带了，几个 BOM 对象属性非常实用
+```javascript
+    console.log(document.URL) // 取得连接
+    console.log(document.domain) // 取得域名
+    console.log(document.location) // 获得地址信息
+```
 
 
+### 查找元素的方法
+
+- `document.getElementById()` 通过节点 id 属性查找 ELement 节点,返回 ELEMENT_NODE
+```javascript
+var div = document.getElmentById('myDiv')
+```
+
+- `document.getElementsByTagName()` 通过元素的标签名返回找到的元素列表 HTMLCollection
+```javascript
+var images = document.getELementsByTagName("img")
+// 访问 HTMLCollection 方法
+console.log(images.length) // 图像数量
+console.log(images[0]) // 数组访问
+console.log(images.item(0)) // item 形式访问
+console.log(images.namedItem('myImage')) // 访问 name 属性为 myImage 的元素
+var allElements = document.getElementsByTagName("*") // 获取所有元素
+```
+
+- `document.getElementsByName` 通过元素的 name 特性，返回 HTMLCollection
+
+通常会使用在单选按钮上面
+
+
+### 创建元素节点
+
+1. `createElement()`创建元素节点
+2. `createComment` 创建解释节点

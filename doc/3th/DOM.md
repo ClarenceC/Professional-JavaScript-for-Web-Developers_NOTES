@@ -116,7 +116,7 @@ DOM1 级里面定义了一个 Node 接口, 所有节点类型都继承自 Node �
     console.log(shallowList.childNodes.length) // 0
 ```
 
-### Document 类型
+## Document 类型
 
 Document 代表整个文档。document 对象是 window对象的一个属性。
 
@@ -142,7 +142,32 @@ document 里面还自带了，几个 BOM 对象属性非常实用
     console.log(document.URL) // 取得连接
     console.log(document.domain) // 取得域名
     console.log(document.location) // 获得地址信息
+    console.log(document.images) // 同样这方法也能获取全部文档 img 元素的节点
+    console.log(document.anchors) // 包含文档中所有带 name 特性的 <a> 元素
+    console.log(document.forms) // 包含文件中所有 <form> 元素
 ```
+
+
+### 检测 DOM 的功能类型
+
+可以通过 `document.implementation.hasFeature` 来判断是否包含 Dom 的部分功能。
+```javascript
+    var haxXmlDom = document.implementation.hasFeature("XML","1.0") 
+```
+
+### DOM写入流
+
+除了操作 DOM 方法外，还可以使用写入流来插入 node 元素节点。有以下几个方法
+
+1. `write()` 方法，把传入的字符串写入到 dom 流中。
+
+```javascript
+    document.write("<strong>" + (new Date()).toString() + "</strong>")
+```
+
+2. `writeln()` 方法，把传入的字符串写入到 dom 流中并最后换行。
+3. `open()` 方法，用于打开写入流。页面加载其间不需要使用这方法。
+4. `close()` 方法，用于关闭写入流。页面加载其间不需要使用这方法。
 
 
 ### 查找元素的方法
@@ -161,14 +186,19 @@ console.log(images[0]) // 数组访问
 console.log(images.item(0)) // item 形式访问
 console.log(images.namedItem('myImage')) // 访问 name 属性为 myImage 的元素
 var allElements = document.getElementsByTagName("*") // 获取所有元素
+
 ```
 
 - `document.getElementsByName` 通过元素的 name 特性，返回 HTMLCollection
 
-通常会使用在单选按钮上面
+通常会使用在单选按钮上面，获取同一类组别的元素。
 
 
 ### 创建元素节点
 
 1. `createElement()`创建元素节点
 2. `createComment` 创建解释节点
+
+
+## Element 类型
+

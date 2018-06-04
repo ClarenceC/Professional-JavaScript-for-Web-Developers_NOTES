@@ -202,3 +202,41 @@ var allElements = document.getElementsByTagName("*") // 获取所有元素
 
 ## Element 类型
 
+Element 是 Web 编程中最常用的类型，用于表现 XML 或 HTML 元素，提供对元素的标签名，子节点特性访问等。
+
+在Element的 `nodeName` 属性中，保存的是元素标签名, `nodeValue` 返回的是 null。
+
+
+### 关于 Element 和 Node 的区别
+
+很多人都会混淆了 Element 和 Node 的区别，其实两个是完全不一样的东西，Node 是属于 HTML DOM 中的基类，所有像 Element ,Attribut Text,都是 Node 的实例对象，
+是特殊的 Node 分别叫做， Element_Node, Text_Node, Comment_Node , 所以 Element_Node 都会继承 Node 的属性。
+
+### NodeList vs HTMLCollection
+
+- NodeList 是由 Node 类型组成的列表
+- HTMLCollection 是由 Element 节点组成的列表，操用 DOM 的时候都会操作 ElementList 即是 HTMLCollection ，而不会去操作 NodeList。
+- 特别要注意的是 NodeList 和 HTMLCollection 都不是真正的数组，都是类数组。
+- NodeList 会包含文本节点和空格节点
+- NodeList 和 HTMLCollection 都是 live 的，会动态变化。
+- NodeList 没有 nameditem() 方法，而 HTMLCollection 有。
+
+### 怎样获取 NodeList 和 HTMLCollection
+
+```javascript
+    // 获取 HTMLCollection
+    const div = document.getElementById('Id') // HTMLCollection
+    document.getElementsByName('Name') // HTMLCollection
+    document.getElementsByTagName('TagName') // HTMLCollection
+    document.getElementsByClassName('style') // HTMLCollection
+
+    document.querySelectorAll('style') // 返回的是 nodelist,但是实际上的是 元素集合，并且是静态的
+
+    div.item(0) // HTMLCollection 可以通过 item 方法访问单独 node 节点
+
+    node.childNodes // 返回 NodeList 
+    div.item(0).childNodes // 返回 NodeList 
+```
+
+
+

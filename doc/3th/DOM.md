@@ -238,5 +238,60 @@ Element 是 Web 编程中最常用的类型，用于表现 XML 或 HTML 元素�
     div.item(0).childNodes // 返回 NodeList 
 ```
 
+### Element 的属性
 
+所有 HTML 元素都是由 HTMLElement 类型来表示的，HTMLElement 是直接继承自 Element 一些属性包括:
+
+- id
+- className
+- title
+- lang
+- name
+- ref
+
+访问的时候可以直接获得一个node节点，再直接访问属性
+```javascript
+    var div = document.getElementById('myDiv')
+    div.id
+    div.className
+    div.lang
+    div.ref
+```
+
+或者可以使用 dom 方法来操作属性值
+
+```javascript
+    var div = document.getElementyById('myDiv')
+    div.getAttribute('id')
+    div.setAttribute('id',value)
+```
+
+有三种操作特性的方法
+
+```javascript
+    div.getAttribute('id') // 获取 属性 ID 的值
+    div.setAttribue('id',value) // 设置 ID 的值
+    div.removeAttribute('id') // 删除 ID 的属性
+    // attributes 属性
+    element.attributes.lenght // 通过 Element_node 的 attributes 属性访问
+```
+
+### 创建元素
+
+创建元素节点可以通过下面方法创建
+```javascript
+    // 传参数是 tagName
+    var div = document.createElement('div')
+    // or
+    var div = document.createElement("<div id=\"myNewDiv\" class=\"box\"></div>")
+```
+
+创建元素节点后是单独存在的，还需要添加到文档树中，才会在页面显示出来。
+```javascript
+    node.appendChild() // 在末尾添加子节点
+    node.insertBefore() // 在某节点前添加子节点
+    node.replaceChild() // 替换子节点
+```
+
+## Text 类型
 

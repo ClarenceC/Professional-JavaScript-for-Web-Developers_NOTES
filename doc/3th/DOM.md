@@ -350,3 +350,38 @@ Element 是 Web 编程中最常用的类型，用于表现 XML 或 HTML 元素�
 
     document.createAttribute('align') // 创建属性节点
 ```
+
+### 动态脚本
+
+有了上面操作 DOM 的操作方法，就可以动态地做很多事情比如说动态加载脚本
+
+```javascript
+    const script = document.createElmenet('script') // 创建元素节点
+    script.type = 'text/javascript' // 设置忏悔
+    script.src = 'client.js'
+    script.appendChild( // 在脚本里面添加 sayHi 方法
+        document.createTextNode(" 
+            function sayHi()(
+                console.log('hi')
+            )
+        ")
+    )
+    document.body.appendChild(script) // 添加到文档树中
+```
+
+### 动态样式
+
+同样也能添加动态样式
+```javascript
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.type = 'text/css'
+    link.appendChild(document.createTextNode("body{background-color:red}"))
+    link.href = 'style.css'
+    let head = document.getElementsByTagName('head')[0]
+    head.appendChild(link)
+```
+
+### 关于 NodeList 的使用
+
+NodeList 、NamedNodeMap、 HTMLCollection 三个集合都是动态变化的，每当文档结构发生变化的时候，它们都会更新 live 状态。所以在遍历操作 NodeList 的时候得小心，最好把 NodeList.length 单独赋变量，以至不会让更改 NodeList 的时候无限变化。DOM 操作会花费比较大的资源，访问 NodeList 都会运行一次查询，尽量减少 DOM 操作会比较好。

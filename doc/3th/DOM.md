@@ -295,3 +295,58 @@ Element 是 Web 编程中最常用的类型，用于表现 XML 或 HTML 元素�
 
 ## Text 类型
 
+文本节点由 Text 类型表示，是用来保存纯文本的内容，一般包含在 Element 节点里面。
+
+```javascript
+    <div></div> <!--没有文本节点-->
+    <div> </div><!--空格也算文本节点-->
+    <div>Hello World!</div> <!--文本节点-->
+```
+
+文本节点可以直接通过 `nodeValue` 赋值,不过记着是要对 TextNode 的 `nodeValue` 赋值,别对其它 Node 节点赋值是没什么作用的，比如 ElementNode。
+```javascript
+    const head = document.getElementById('head')
+    head.childNodes[0].nodeValue = 'Text_Node'
+```
+### 创建文本节点
+
+```javascript
+    var element = document.createElmenet('div')
+    var textNode = document.createTextNode('<strong>Hello</strong> World!')
+    element.appendChild(textNode)
+    document.body.appendChild(element)
+```
+
+### Text类型节点的方法
+
+- normalize() 能把元素节点下多个文本子节点合并
+- splitText() 能把文本子节点分拆，正好和 normalize 相反
+
+## Comment 类型
+
+注释节点，注释节点是通过 Comment 来表示。
+
+## CDATASection 类型
+
+用于针对基于 XML 的文档描述
+
+## DocumentType 类型
+
+用于描述页面整个文档的 doctype 有关信息
+
+## DocumentFragment 类型
+
+用于包含document 片块节点信息
+
+## Attr 类型
+
+用来表示元素节点里面的属性，属性都由 AttrNode 节点表示。
+操作属性节点的方法有：
+
+```javascript
+    node.getAttribute('name') // 获取 属性节点
+    node.setAttribute('name','value') // 更改属性节点
+    node.removeAttribute('name') // 移动属性节点
+
+    document.createAttribute('align') // 创建属性节点
+```

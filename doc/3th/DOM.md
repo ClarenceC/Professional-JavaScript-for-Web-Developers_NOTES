@@ -233,6 +233,7 @@ Element 是 Web 编程中最常用的类型，用于表现 XML 或 HTML 元素�
     document.querySelectorAll('style') // 返回的是 nodelist,但是实际上的是 元素集合，并且是静态的
 
     div.item(0) // HTMLCollection 可以通过 item 方法访问单独 node 节点
+    div[0] // HTMLCollection 也可以通过直接数组的形式访问
 
     node.childNodes // 返回 NodeList 
     div.item(0).childNodes // 返回 NodeList 

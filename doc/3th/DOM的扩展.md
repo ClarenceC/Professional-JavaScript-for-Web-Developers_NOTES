@@ -125,3 +125,34 @@ insertAdjacentHTML 和上面的 innerHTML、outerHTML 是一样的，添加HTML�
 
 scrollIntoView() 滚动方法， HTML 上面所有元素都能调用。
 
+### 其它浏览器专有扩展
+- document.documentMode 属性
+
+    在 HTML5 中，有一个 `document.documentMode` 属性可以知道页面使用的是什么文档模式。
+返回的是 `<head>` 标签里面的 `<meta http-equiv="X-UA-Compatible" content="IE=IEVersion">` 内容模式。
+
+- Node.children 属性
+
+    像之前上面所说的 Node 节点可以通过 `Node.childNodes` 来返回该节点的 NodeList 列表.而 `Node.children` 是返回 HTMLCollection 列表的，要注意 NodeList 和 HTMLCollection 都是动态列表，两个都是类数组，使用方式上面也是不一样的。
+
+- contains() 方法
+
+    用于查找某个节点是否存在于某父节点之下
+
+- compareDocumentPosition()
+
+    这个方法比 contains 能查询更多位置的内容，能查基于父子点居前居后，被包含等状态。
+
+
+- innerText 属性
+
+    还记得之前提及到的 innerHTML ，其实 innerHTML 和 innerText 是不同的， innerHTML 是某节点下的全部子元素, innerText 是某子点下的所有文本内容，包括子文档树中的文本，由浅入深的返回。textContent 也能同样返回文本属性，innerText 只会生成一个文本节点.
+
+- outerText 属性
+
+    outerText 也是和 outerHTML,很像会包含节点，如果替换文本节点会完全替换了父节点。
+
+- scrollIntoView()
+
+    有几个操作滚动的方法
+

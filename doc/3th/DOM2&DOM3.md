@@ -6,6 +6,11 @@ DOM(文档对象模型) 是针对 HTML 和 XML 文档的一个API(应用程序�
 
 ![image](/img/1200px-DOM-model.svg.png)
 
+## 浏览器渲染
+
+![image](/img/566688fa0001312112800720.jpg)
+这图很清楚地描述了整个页面渲染过程，而 DOM 标准是基于 HTML 上解释成文档对象模型，之后再和 CSS 树合并，画出来的。
+
 ## DOM 的发展史
 
 ### DOM | DOM0
@@ -30,8 +35,10 @@ DOM2 在 DOM1 的基础上引入了更多的交互能力，支持更高级的 XM
 * DOM样式 (DOM2 Style): 定义了如何方式访问和改变 CSS 样式的信息。
 * DOM遍历和范围 (DOM2 Traversal and Range): 引入了遍历 DOM 文档和选择其特定部分的新接口。
 
-DOM2 样式围绕，外部样式表，`<style/>`样式表，和针对特定元素的样式，提交API。
+DOM2 样式，围绕外部样式表，`<style/>`样式表，和针对特定元素的样式，提交API。
 
+#### `style`
+利用节点的 style 属性，可以访问任何该节点元素的样式信息。
 ```javascript
     // 可以直接对 Node_Element 节点的 style属性进行添加样式
     const myDiv = document.getElementById('myDiv')
@@ -54,6 +61,77 @@ DOM2 样式围绕，外部样式表，`<style/>`样式表，和针对特定元�
     // 删除style属性
         myDiv.style.removeProperty('border')
 ```
+
+#### `getComputedStyle()`
+
+利用 `getComputedStyle()` 能计算出从其他样式表层叠而来影响到当前元素的样式信息。
+
+```javascript
+const myDiv = document.getElementById('myDiv')
+// 传入两个参数， Node 节点，伪元素字符串（没有可以传 null 
+// 计算出这个元素的最终样式
+const computedStyle = document.defaultView.getComputedStyle(myDiv, null)
+computedStyle.backgroundColor // "red"
+computedStyle.width // "100px"
+computedStyle.height // "200px"
+computedStyle.border 
+```
+
+#### `document.styleSheets` && `sheet.cssRules` && `sheet.rules`
+
+`document.styleSheets`可以返回当前文档的样式表集合。
+`sheet.cssRules` 和 `sheet.rules` 可以访问样式元素里面的 CSS 元素。
+```javascript
+    console.log(document.styleSheets) // StyleSheetList {0: CSSStyleSheet, 1: CSSStyleSheet, 2: CSSStyleSheet, 3: CSSStyleSheet, length: 4}
+
+    const sheet = document.styleSheets[0] // 获取文档第一个样式表
+    const rules = sheet.cssRules || sheet.rules // 获取样式表里面的 CSS列表
+    const rule = rules[0] // 获取第一条
+    console.log(rule.selectorText) // "div.box"
+    console.log(rule.style.cssText) // "全部css样式"
+    console.log(rule.style.backgroundColor) // "blue"
+    console.log(rule.style.width) // "100px"
+    console.log(rule.style.height) // "200px"
+
+    rule.style.backgroundColor = "red" // 修改样式属性
+    sheet.insertRule("body { background-color: sliver }",0) // 在样式表插入样式 在 0 行插入
+    sheet.deleteRule(0) // 删除 0 行
+    sheet.removeRule(0) // 兼容 IE
+
+```
+
+#### DOM2 偏移量
+
+在日常网页开发中偏移量在经常使用在横福，广告轮转，页面滚动当中啊。理解根本的概念非常重要。
+
+#### offsetParent
+`Node.offsetTop` 直接访问距离属性
+
+`Node.offsetParent` 对象可以统一包含下面属性
+- **offsetHeight**：元素在垂直方向上占用的空间大小。
+- **offsetWidth**： 元素在水平方向 上占用的空间大小。
+- **offsetLeft**： 元素的左外边框至包含元素的左内边框之前的像素距离。
+- **offsetTop**： 元素的上外边框至包含元素的上内边框之间的像素距离。
+
+![images](/img/test_choiye84.jpg)
+
+#### 客户区大小
+
+客户区大小指元素内容及其内边距所占据的空间大小。
+
+`Node.offsetParent` 对象可以统一包含下面属性
+- **clientWidth**: 是元素内容区宽度边距宽度。
+- **clientHeight**: 属性是元素内容区高度边距高度。
+
+#### 滚动大小
+
+滚动大小是指包含滚动内容的元素的大小。
+- **scrollHeight**: 在没有滚动条的情况下，元素内容的总高度。
+- **scrollWidth**: 在没有滚动条的情况下，元素内容的总宽度。
+- **scrollLeft**: 被隐藏在内容区域左侧的像素数。通过设置这个属性可以改变元素的滚动位置。
+- **scrollTop**: 被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置。
+
+- **getBoundingClientRect()**: 返回一个矩形对象包含4个属性: left、top、right、bottom.
 
 ### DOM 3
 DOM3 扩展了 DOM，增加了一些扩展模块：

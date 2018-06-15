@@ -133,6 +133,72 @@ computedStyle.border
 
 - **getBoundingClientRect()**: 返回一个矩形对象包含4个属性: left、top、right、bottom.
 
+DOM2 遍历
+
+DOM2 提供了下面两个 DOM 类型来遍历 DOM 结构，这两个类型都是基于深度优先算法遍历的。就是遇到兄弟节点先把兄弟节点遍历到底再遍历另一边的兄弟子点。
+
+- NodeIterator
+
+```javascript
+const filter = function(node) {
+    return node.tagName.toLowerCase() == 'p' ?
+           NodeFilter.FILTER_ACCEPT :
+           NodeFilter.FILTER_SKIP
+}
+const iterator = document.createNodeIterator( // 创建遍历节点
+    root, // 从那个父节点开始遍历
+    NodeFilter.SHOW_ELEMENT, // 节点数字代码
+    filter, // NodeFilter 对象，接受某中特定节点的函数
+    false // 在 HTML 页面返回 false
+)
+
+iterator.nextNode() // 下一个节点
+iterator.previousNode() // 上一个节点
+```
+
+- TreeWalker
+
+TreeWalker 和 NodeIterator 使用方式很相似
+
+```javascript
+    const div = document.getElementById('div')
+    const filter = function(node) {
+        return node.tagName.toLowerCase() === "li"?
+               NodeFilter.FILTER_ACCEPT :
+               NodeFilter.FILTER_SKIP
+    }
+    const walker = document.createTreeWalker( // createTreeWalker
+        div,
+        NodeFilter,
+        SHOW_ELEMENT,
+        filter,
+        false
+    )
+    walker.firstChild() // 第一个节点
+    walker.nextSibling() // 下一个字点
+    walker.currentNode // 当前的节点
+    let node = iterator.nextNode()
+
+    while(node !== null) {
+        console.log(node.tagName)
+        node = iterator.nextNode()
+    }
+```
+
+DOM2 中的范围
+
+- createRange()
+
+```javascript
+    const range1 = document.createRange() // 创建范围
+    const range2 = document.createRange()
+    const p1 = document.getELmenetById('p1')
+    range1.selectNode(p1) // 选择整个节点，包括其子节点
+    range2.selectNodeContents(p1) // 只选择节点的子节点
+```
+
+DOM2 范围还有增删查改的操作，不一一详解了。
+
 ### DOM 3
 DOM3 扩展了 DOM，增加了一些扩展模块：
 
@@ -142,22 +208,20 @@ DOM3 扩展了 DOM，增加了一些扩展模块：
 
 DOM2 和 DOM3 都不同程度对 XML 命名空间有扩展，比较少使用到就不展开讨论了。
 
-### DOM 接口
+## DOM 接口
 
 DOM 模型的接口有30多个，但常用的只有4~5个
 
-#### Document
+### Document
 
 Document接口是对文档进行操作的入口，它是从Node接口继承过来的。 
 
-#### Node
+### Node
 　　Node接口是其他大多数接口的父类。在DOM树中，Node接口代表了树中的一个节点。
 
-#### NodeList
+### NodeList
 　　NodeList接口是一个节点的集合，它包含了某个节点中的所有子节点。它提供了对节点集合的抽象定义，并不包含如何实现这个节点集的定义。NodeList用于表示有顺序关系的一组节点，比如某个节点的子节点序列。在DOM中，NodeList的对象是live的，对文档的改变，会直接反映到相关的NodeList对象中。
 
-
-#### NamedNodeMap
+### NamedNodeMap
 　　NamedNodeMap接口也是一个节点的集合，通过该接口，可以建立节点名和节点之间的一一映射关系，从而利用节点名可以直接访问特定的节点，这个接口主要用在属性节点的表示上。尽管NamedNodeMap所包含的节点可以通过索引来进行访问，但是这只是提供了一种枚举方法，NamedNodeMap所包含的节点集中节点是无序的。与NodeList相同，在DOM中，NamedNodeMap对象也是live的。
 
-### DOM 事件

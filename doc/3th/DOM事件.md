@@ -114,4 +114,77 @@ DOM2 定义了两个方法用于处理指定和删除事件处理程序的操作
 
 `attachEvent`、`detachEvent` 和 `addEventListener`、 `removeEventListener` 使用上很像，不过要注意一点 `attachEvent` 上的 `this` 指向的是 `window`,`addEventListener` 指向上的是元素本身。
 
+## DOM 中的事件对象 event
+
+在 DOM0 或者 DOM2级中，绑定事件都会传入 `event` 对象。
+
+```javascript
+    // DOM2
+    const btn = document.getElementById('myBtn')
+    btn.onclick = function(event) {
+        console.log(event.type) // 'click'
+    }
+    btn.addEventListener('click', function(event) {
+        console.log(event.type) // 'click'
+    }, false)
+
+    // DOM0
+    const handleOnClick = function(event) {
+        console.log(event.type)
+    }
+    <input type="button" value="Click Me" onclick="handleOnCLick()" />
+```
+
+`event` 几个重要的属性与方法
+
+- `event.eventPhase` 属性判断调事事件处于那个阶段 1 表示捕获阶段 2表示'处于目标'阶段 3 表示冒泡阶段
+
+- `event.preventDefault()` 取消事件默认行为。
+
+- `event.stopImmediatePropagation()` 取消事件的进一步捕获或冒泡，同时阻止任何DOM3事件处理程序被调用
+
+- `event.stopPropgation()` 取消事件的进一步捕获或冒泡
+
+- `event.target` 属性表示为当前事件的触发目标元素。
+
+- `event.currentTarget` 属性为当前事件的注册元素。
+
+- `event.type` 被触发的事件类型
+
+- `event.cancelable` 表示是否可以取消事件的默认行为，如果为 true 则可以取消, false 则没有默认动作，或者不能阻止默认动作。
+
+关于 `event.currentTarget` 和 `event.target` 和 `this` 的区别。
+
+```javascript
+    document.body.onclick = function(event) {
+        console.log(event.currentTarget) // 注册事件的元素
+        console.log(this) // 注册事件的元素
+        console.log(event.target) // 触发事件的元素
+    }
+```
+
+
+关于 `event.preventDefault()` 和 `event.stopPropgation` 和 `return false` 很容易分不清除区别
+
+- `event.preventDefault()` 是取消阻止默认动作，比如表单事件的 submit。
+- `event.stopPropgation` 是阻止继续冒泡或者阻止继续捕获。
+- `return false` 是上面两个都会执行，还可以返回对象，跳出循环。
+
+## IE 中的事件对象
+
+在 IE中 `event` 对象会作为 window 对象的一个属性存在。
+
+```javascript
+    const btn = document.getElementById('myBtn')
+    btn.onclick = function() {
+        const event = window.event
+        console.log(event.type) // 'click'
+    }
+```
+
+- IE 的 `returnValue` 属性和 DOM 中的`preventDefault()` 作用相同，默认为true,设为 false 就可以取消事件的默认行为。
+
+- IE 的 `event.cancelBubble` 属性和 DOM 中的 `stopPropagation()` 作用相同。默认为 false, 设为 true 就可以取消事件冒泡。
+
+
 

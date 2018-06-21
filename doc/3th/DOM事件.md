@@ -186,5 +186,111 @@ DOM2 定义了两个方法用于处理指定和删除事件处理程序的操作
 
 - IE 的 `event.cancelBubble` 属性和 DOM 中的 `stopPropagation()` 作用相同。默认为 false, 设为 true 就可以取消事件冒泡。
 
+## 事件类型
 
+DOM 里面有很多种类的事件类型，而 DOM3 中重新定义了事件模块。
 
+- UI(User Interface, 用户界面)事件，当用户与页面上的元素交互时触发。
+    * load：当页面完全加载后触发。
+    * abort：用户停止下载过程时触发。
+    * unload：当页面完全卸载后在 window 上面触发。
+    * resize： 当窗口大小变化时在 window 上面触发。
+    * scroll： 当用户滚动带条内容时在元素上面触发。
+
+- 焦点事件，当元素获得或失去焦点时触发。
+    * blur： 在元素失去焦点时触发，（**事件不冒泡**）
+    * focus：在元素获得售楼 点时触发，（**事件不冒泡**）
+
+- 鼠标事件，当用户通过鼠标在页面上执行操作时触发。
+    * click： 在用户单击鼠标按钮时，或者按下回车键时触发。
+    * dblclick：在用户双击鼠标按钮时触发。
+    * mousedown：在用户按下了任意鼠标按钮时触发。
+    * mouseenter：在鼠标从元素外部首次移动到元素范围内时触发，移动到后代元素上不触发。（**事件不冒泡**）
+    * mouseleave： 在元素上方的鼠标光标移动到元素范围之外时触发，移动到后代元素上不触发。（**事件不冒泡**）
+    * mousemove：鼠标在元素内部移动时重复地触发。
+    * mouseout：鼠标指针位于一个元素的上方，然后移入另一个元素时触发。
+    * mouseover：鼠标在元素外部首次移入另一个元素边界内时触发。
+    * mouseup：在用户释放鼠标按钮时触发。
+
+- 滚轮事件，当使用鼠标滚轮或设备时触发。
+    * mousewheel： 当用户通过滚轮与页面交互就会触发。
+
+- 文本事件&键盘事件，当在文档中输入文本时触发,当用户通过键盘在页面上执行操作时触发。
+    * keydown：当用户按下键盘上的任意键时触发。
+    * keypress：当用户按下键盘上的字twfy键时触发。
+    * keyup： 当用户释放键盘上的键时触发。
+    * textInput：当用户在可编辑区域中输入字符时，就会触发这个事件。(DOM3)
+
+- 复合事件，当为 IME（Input Method Editor，输入法编辑器）输入字符时触发.
+    * compositionupdate： 在向输入字段中插入新字符时触发。
+    * compositionend： 在 IME 的文本复合系统关闭时触发，表示返回正常键盘输入状态。
+
+- 变动事件，当底层 DOM 结构发生变化时触发。
+    * DOMSubtreeModified：在DOM结构中发生任何变化时触发。这个事件在其他任何事件触发后都会触发。
+    * DOMNodeInserted： 在一个节点作为子节点被插入到另一个节点中时触发。
+    * DOMNODERemoved： 在节点从其父节点中被移除时触发。
+    * DOMNodeInsertedIntoDocument： 在一个节点被直接插入文档或通过子树间接插入文档之后触发。
+    * DOMNodeRemovedFormDocument： 在一个节点被直接从文档中移除或通过子树间接从文档中移除之前触发。
+    * DOMAttrModified：在特性被修改之后触发。
+    * DOMCharacterDataModified：在文本节点的值发生变化时触发。
+
+- HTML5 事件，DOM规范里没有涵盖所有浏览器支持的所有事件。
+    * contextmenu 事件，右键调出上下文，触发事件。
+    * beforeunload 事件，在页面卸载前触发该事件。
+    * DOMContentLoaded 事件，会在页面一切都加载完毕时触发，在形成完整的 DOM树之后就会触发，不理会图像，JavaScript CSS 其它资源文件。
+    * readystatechange 事件，是用来提供与文档或元素的加载状态有关信息。
+    * hashchange 事件，在 URL 的参数发生变化时通知开发人员。
+
+## 事件如何管理内存和性能
+
+过多的事件绑定会存在内存性能问题，如何管理内存和性能就变成是一个学术上的问题了。怎样解决呢？
+
+### 事件季托
+
+在多个需要事件处理的元素上层只注册一个处理事件，利用冒泡上传到父类组件时再处理。
+
+```javascript
+    <ul id="myLinks">
+        <li id="goSomewhere">Go somewhere</li>
+        <li id="doSomething">Do something</li>
+        <li id="sayHi">Say hi</li>
+    </ul>
+
+    const list = document.getElmenetById('myLinks')
+    list.addEventListener('click', function(event) {
+        let event = event || window.event
+        const target = event.target
+        switch(target.id) {
+            case 'doSomething':
+                document.title = 'I changed the document\'s title'
+                break
+            case 'goSomewhere':
+                location.href = 'http://www.wrox.com'
+                break
+            case 'sayHi':
+                console.log('hi')
+                break
+        }
+    },false)
+```
+
+### 移除事件处理程序
+
+在错误移除事件处理程序，就会产生 空事件处理程序(dangling event handler),在残留在内存中，对内存性能造成影响。
+
+对将会被`removeChild()`、`replaceChild()`、`innerHTML`移除或删除的元素，提前做好删除事件。
+
+```javascript
+    <div id="myDiv">
+        <input type="button" value="Click Me" id="myBtn">
+    </div>
+    <script type="text/javascript">
+        const btn = document.getElementById('myBtn')
+        btn.onclick = function() {
+            btn.onclick = null // 先移除事件处理程序
+            document.getElementById('myDiv').innerHTML = 'Processing...' // 再对组件进行操作
+        }
+    </script>
+```
+
+另一种空事件处理程序情况发生在页面卸载，在页面卸载之前也最好调用 `onunload` 事件进行处理。

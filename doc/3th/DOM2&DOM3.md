@@ -202,9 +202,10 @@ DOM2 范围还有增删查改的操作，不一一详解了。
 ### DOM 3
 DOM3 扩展了 DOM，增加了一些扩展模块：
 
-* DOM3加载和保存模块(DOM Load and Save): 引入了以统一方式加载和保存文档的方法。
-* DOM3验证模块 (DOM Validation): 定义了难文档的方法
-* DOM核心的扩展 (DOM Style): 支持 XML 1.0规范，涉及 XML Infoset、XPath 和 XML Base 
+* DOM3 加载和保存模块(DOM Load and Save): 引入了以统一方式加载和保存文档的方法。
+* DOM3 验证模块 (DOM Validation): 定义了难文档的方法
+* DOM3 核心的扩展 (DOM Style): 支持 XML 1.0规范，涉及 XML Infoset、XPath 和 XML Base 
+* DOM3 事件模块在 DOM2 事件模块上重新定义了这些事件
 
 DOM2 和 DOM3 都不同程度对 XML 命名空间有扩展，比较少使用到就不展开讨论了。
 

@@ -294,3 +294,60 @@ DOM 里面有很多种类的事件类型，而 DOM3 中重新定义了事件模�
 ```
 
 另一种空事件处理程序情况发生在页面卸载，在页面卸载之前也最好调用 `onunload` 事件进行处理。
+
+## 模拟 DOM 事件
+
+DOM 事件一般是由 DOM 元素组件触发的，但是在某些时候也能通过 JavaScript 来触发特定的事件。
+
+在触发事件之前我们先要创建这个事件对象 `event`。创建 `event`，可以在 document 对象上使用 `createEvent()` 来创建 `event` 对象，`createEvent()` 需要传事件字符参数。在 DOM3 中传参的字符串有所更改 DOM3 是单数形式。
+
+| 事件描述 | DOM2             | DOM3|
+|---|------------------------|-----|
+| 一般化UI事件，在DOM3级中把鼠标和键盘都继承自UI事件。 | UIEvents             | UIEvent |
+| 一般化的鼠标事件 | MouseEvents | MouseEvent |
+| 一般化的 DOM 变动事件 | MutationEvents | MutationEvent  |
+| 一般化的 HTML 事件 | HTMLEvents  | 没有对应的DOM3级事件，被分散到其他类别中 |
+
+
+```javascript
+    const btn = document.getElementById('myBtn')
+    // 创建事件对象
+    const event = document.createEvent('MouseEvents')
+    // 初始化事件对象, 传入模拟事件的参数
+    event.initMouseEvent('click',true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+    // 通过 btn 触发事件
+    btn.dispatchEvent(event)
+```
+
+其它类型创建触发也是这样，主要是创建事件对象和初始化事件对象有所不同。在 DOM3 能自定义事件。
+
+```javascript
+    const div = document.getElmentById('myDiv')
+    // 创建处理函数
+    const myeventHandle = function(event) {
+        console.log('DIV: ' + event.detail)
+    }
+    // 添加处理事件
+    div.addEventListener(myevent,myeventHandle,false)
+    // 创建自定义事件对象
+    const event = document.createEvent('CustomEvent')
+    // 初始化自定义对象
+    event.initCustomEvent('myevent', true, false, 'Hello world')
+    // 传递对象触发事件
+    div.dispatchEvent(event)
+```
+
+在 IE 中的模拟事件也有不同，兼容 IE 的时候需要注意了。
+
+```javascript
+    const textbox = document.getElementById('myTextbox')
+    // 创建 IE 事件对象
+    const event = document.createEventObject()
+    // 初始化事件对象
+    event.altKey = false
+    event.ctrlKey = false
+    event.shiftKey = false
+    event.keyCode = 65
+    // IE 下触发事件
+    textbox.fireEvent('onkeypress',event)
+```

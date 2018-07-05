@@ -41,3 +41,73 @@ droptarget.addEventListener('dragenter', function(event) {
     event.preventDefault()
 })
 ```
+
+## dataTransfer 对象
+
+`dataTransfer` 对象，用于从被拖动的元素向放置目标传递字符串格式。
+
+```javascript
+// 设置接收文本字符串
+event.dataTransfer.setData('text','some text')
+var text = event.dataTransfer.getData('text')
+
+// 设置和接收 URL
+event.dataTransfer.setData('URL','http://www.wrox.com/')
+var url = event.dataTransfer.getData('URL')
+```
+
+## `dropEffect` 和 `effectAllowed`
+
+通过 **dropEffect** 可以知道被拖动的目标元素能够有那些放置行为。下面是 `dropEffect` 的值。
+
+- none 不能把拖动的元素放在这里。
+- move 应该把拖动的元素移动到放置目标。
+- copy 应该把拖动的元素复制到放置目标。
+- link 表示放置目标会打开拖动的元素 有URL。
+
+`dropEffect` 要搭配 **effectAllowed** 属性才有用。 `effectAllowed` 是允许有那些的放置行为。
+
+可以拖动的元素需要设计 `draggable` 属性
+
+```javascript
+// 不能拖动图像
+<img src='smile.gif' draggable='false' alt='Smiley face'/>
+// 可以拖动的元素
+<div draggable='true'>...</div>
+```
+
+## 媒体元素
+插入视频元素使用 `video`,插入音频元素使用 `audio`
+
+```javascript
+// 视频元素
+<video src='conference.mpg' id='myVideo'>Video player not available.</video>
+// 音频元素
+<audio src='song.mp3' id='myAudio'>Audio player not available.</audio>
+```
+
+当然可以自定义视频和音频元素的组件，视频和音频的组件也具有很多触发的事件这里不一一详述了。
+
+## 历史状态管理
+
+在浏览器历史状态中，每次操作不一定会打开一个全新的页面，因此历史状态不是每一次都能记录到。
+
+脚本可以通过 `pushState()` 方法添加历史状态记录到历史状态栈。`pushState()` 接收三个参数： 状态对象、新状态的标题和可选的相对 URL。
+```javascript
+history.pushState(
+    {
+        name: 'Nicholas'
+    },
+    'Nicholas \s page',
+    'nicholas.html'
+)
+```
+
+URL 状态的变化会触发 `hashchange` 事件。
+历史状态栈的变化会触发 `popstate` 事件。
+
+history 还有一些更改历史状态栈的方法
+- replaceState() 更换历史栈状态
+- pushState() 压进新历史栈
+
+
